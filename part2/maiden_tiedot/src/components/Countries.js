@@ -20,7 +20,7 @@ const Countries = (props) => {
                     <li key={lang.name}>{lang.name}</li>)}
           <img src={flag} alt="flag" width="200" height="150"/>
           <Weather 
-            capital={countriesToShow[0].capital}/>
+            country={countriesToShow[0]}/>
           </div>
       )
       } 
