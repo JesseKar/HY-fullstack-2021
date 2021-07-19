@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
+import restService from './services/restMethods'
 
 const App = () => {
   const [ persons, setPersons] = useState([]) 
@@ -11,14 +11,14 @@ const App = () => {
   const [ newSearch, setNewSearch ] = useState('')
 
 //useEffectillä haetaan data db.jsonin 3001 portissa
-// olevalta sivulta localhost:3001/persons
+// olevalta sivulta localhost:3001/persons, haut tapahtuu nyt restMethodsissa service hakemistossa
 useEffect(() => {
   console.log('effect');
-  axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
+  restService
+    .getAll()
+    .then(initialPersons => {
       console.log('promise fulfilled');
-      setPersons(response.data)
+      setPersons(initialPersons)
     })
 }, [])
 
@@ -37,6 +37,18 @@ console.log('render', persons.length, 'notes')
 
   const handleSearchChange = (e) => {
     setNewSearch(e.target.value)
+  }
+
+  const deletePerson = deletedPerson => {
+    const warning = window.confirm(`Do you want to delete ${deletedPerson.name}?`)
+    if (warning) {
+      restService
+        .remove(deletedPerson.id)
+        .then(() => {
+          setPersons(persons.filter(person => person.id !== deletedPerson.id))
+          console.log('delete succesfull', deletedPerson.name);
+        })
+    }
   }
 
 // etsitaan listasta ne nimet jotka sisaltaa 
@@ -68,6 +80,9 @@ console.log('render', persons.length, 'notes')
       <h3>Numbers</h3>
       <Persons 
         personsToShow={personsToShow}
+        persons={persons}
+        setPersons={setPersons}
+        deletePerson={deletePerson}
       />
       
     </div>
