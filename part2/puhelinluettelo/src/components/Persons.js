@@ -1,5 +1,4 @@
 import React from 'react'
-import restService from '../services/restMethods'
 
 const Persons = (props) => {
 
@@ -9,7 +8,7 @@ const Persons = (props) => {
         <ul>
         {personsToShow.map(person =>
           <li key={person.id}>{person.name} {person.number}
-            <button onClick={() => deletePerson(person)}>delete</button>
+            <button onClick={() => deletePerson(person)} className="delete">x</button>
           </li>
           )}
       </ul>

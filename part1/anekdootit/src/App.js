@@ -19,6 +19,7 @@ const Anecdote = (props) => {
   return (
     <div>
       <p>{props.anecdotes[num]}</p>
+      <p>has votes {props.points[num]}</p>
     </div>
   )
 }
@@ -26,7 +27,6 @@ const Anecdote = (props) => {
 const MostPopular = (props) => {
     const copy = props.points
     
-  
     let greatest = 0;
     let indexOfGreatest = 0;
     for (var i = 0; i < copy.length; i++){
@@ -37,7 +37,11 @@ const MostPopular = (props) => {
     }
     console.log('index of biggest number in array', indexOfGreatest)
   return (
-    <p>{props.anecdotes[indexOfGreatest]}</p>
+    <div>
+      <p>{props.anecdotes[indexOfGreatest]}</p>
+      <p>has votes {props.points[indexOfGreatest]}</p>
+    </div>
+    
   )
 }
 
@@ -75,12 +79,10 @@ const App = () => {
 
   return (
     <div>
-    <br/>
-    <Button handleClick={randomAnecdote} text='Anecdote'/>
-    <Button handleClick={handleVote} text='Vote' />
-    <br/>
     <Header text='Anecdotes' />
-    <Anecdote anecdotes={anecdotes} selected={selected} />
+    <Button handleClick={randomAnecdote} text='Next anecdote'/>
+    <Button handleClick={handleVote} text='Vote' />
+    <Anecdote anecdotes={anecdotes} selected={selected} points={points}/>
     <Header text='Most popular anecdote' />
     <MostPopular anecdotes={anecdotes} points={points} />
     </div>

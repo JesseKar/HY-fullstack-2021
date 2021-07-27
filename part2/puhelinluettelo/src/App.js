@@ -3,12 +3,15 @@ import PersonForm from './components/PersonForm'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 import restService from './services/restMethods'
+import Notification from './components/Notification'
 
 const App = () => {
   const [ persons, setPersons] = useState([]) 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newSearch, setNewSearch ] = useState('')
+  const [ eventMessage, setEventMessage ] = useState()
+  const [ isError, setIsError ] = useState()
 
 //useEffectillä haetaan data db.jsonin 3001 portissa
 // olevalta sivulta localhost:3001/persons, haut tapahtuu nyt restMethodsissa service hakemistossa
@@ -47,6 +50,20 @@ console.log('render', persons.length, 'notes')
         .then(() => {
           setPersons(persons.filter(person => person.id !== deletedPerson.id))
           console.log('delete succesfull', deletedPerson.name);
+          setIsError(false)
+          setEventMessage(`Deleted ${deletedPerson.name}`)
+          setTimeout(() => {
+            setEventMessage(null)
+            setIsError()
+          }, 3000)
+        })
+        .catch(error => {
+          setEventMessage(`Deleting ${deletedPerson.name} caused an error, person was already deleted from server`)
+          setIsError(true)
+          setTimeout(() => {
+            setEventMessage(null)
+            setIsError()
+          }, 5000)
         })
     }
   }
@@ -62,6 +79,9 @@ console.log('render', persons.length, 'notes')
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification 
+        message={eventMessage}
+        isError={isError}/>
       <Filter 
         newSearch={newSearch}
         handleSearchChange={handleSearchChange}
@@ -76,6 +96,8 @@ console.log('render', persons.length, 'notes')
         setNewNumber={setNewNumber}
         handleNameChange={handleNameChange}
         handleNumberChange={handleNumberChange}
+        setEventMessage={setEventMessage}
+        setIsError={setIsError}
         />
       <h3>Numbers</h3>
       <Persons 

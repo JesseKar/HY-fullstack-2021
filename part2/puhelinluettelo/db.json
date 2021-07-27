@@ -2,7 +2,7 @@
   "persons": [
     {
       "name": "Arto Hellas",
-      "number": "040-123456",
+      "number": "123545",
       "id": 1
     },
     {
@@ -19,16 +19,6 @@
       "name": "Marja Hellas",
       "number": "105109515",
       "id": 5
-    },
-    {
-      "name": "Kaisa Hellas",
-      "number": "1234567",
-      "id": 6
-    },
-    {
-      "name": "Jorma Hellas",
-      "number": "99999",
-      "id": 7
     }
   ]
 }
