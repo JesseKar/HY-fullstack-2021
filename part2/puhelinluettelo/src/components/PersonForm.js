@@ -42,7 +42,8 @@ const updatePerson = (name) => {
       setNewNumber('')
      })
      .catch(error => {
-      setEventMessage(`Updating ${changedPerson.name} caused an error: Person was already deleted from server`)
+      console.log(error.response.data);
+      setEventMessage(JSON.stringify(error.response.data))
       setIsError(true)
       setTimeout(() => {
         setEventMessage(null)
@@ -60,8 +61,8 @@ const addPerson = () => {
 
         restService
           .create(person)
-          .then(returnedPerson => {
-            setPersons(persons.concat(returnedPerson))
+          .then(createdPerson => {
+            setPersons(persons.concat(createdPerson))
             console.log('added', person.name);
             setIsError(false)
             setEventMessage(`${person.name} added`)
@@ -73,10 +74,12 @@ const addPerson = () => {
             setNewNumber('')
           })
           .catch(error => {
-            setEventMessage(`Adding ${person.name} caused an error`)
+            console.log(error.response.data);
+            setEventMessage(JSON.stringify(error.response.data))
             setIsError(true)
             setTimeout(() => {
               setEventMessage(null)
+              setIsError()
             }, 5000)
           })
 }
